@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import dj_database_url
 from pathlib import Path
 import os
 
@@ -22,7 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 #SECRET_KEY = 'django-insecure-juqz)$efq-l%(jlc17(bxkmi9j9fowz&%m7-r!0xs6ek7*2@&y'
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-juqz)$efq-l%(jlc17(bxkmi9j9fowz&%m7-r!0xs6ek7*2@&y')
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY',
+    'django-insecure-juqz)$efq-l%(jlc17(bxkmi9j9fowz&%m7-r!0xs6ek7*2@&y')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = False
@@ -87,13 +90,13 @@ DATABASES = {
 DATABASES = {}
 if os.getenv('SQLITE', False):
     DATABASES['default'] = {
-           'ENGINE': 'django.db.backends.sqlite3',
-           'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 else:
     import dj_database_url
     DATABASES['default'] = dj_database_url.config(default='postgres://alumnodb:alumnodb@localhost:5432/psi',
-        conn_max_age=500)
+                                                  conn_max_age=500)
 
 
 # Password validation
@@ -132,7 +135,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-# The absolute path to the directory where collectstatic will collect static files for deployment.
+# The absolute path to the directory where collectstatic will collect
+# static files for deployment.
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATIC_URL = '/static/'
@@ -143,13 +147,12 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-#The following environment variable, called DATABASE_URL, has to be defined
-#at the o.s. level: export DATABASE_URL =
+# The following environment variable, called DATABASE_URL, has to be defined
+# at the o.s. level: export DATABASE_URL =
 # 'postgres://alumnodb:alumnodb@localhost:5432/psi'
-import dj_database_url
 db_from_env = \
-    dj_database_url.config(default='postgres://alumnodb:alumnodb@localhost:5432/psi', 
-                            conn_max_age=500)
+    dj_database_url.config(default='postgres://alumnodb:alumnodb@localhost:5432/psi',
+                           conn_max_age=500)
 
 DATABASES['default'].update(db_from_env)
 

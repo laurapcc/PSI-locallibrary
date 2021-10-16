@@ -26,8 +26,8 @@ urlpatterns = [
     path('catalog/', include('catalog.urls')),
     # redirect the base URL to our application
     path('', RedirectView.as_view(url='catalog/')),
-    #Add Django site authentication urls (for login, logout, password management)
+    # Add Django site authentication urls (for login, logout, password
+    # management)
     path('accounts/', include('django.contrib.auth.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    # add url mapping to serve static files during development (only)
-
+# add url mapping to serve static files during development (only)
