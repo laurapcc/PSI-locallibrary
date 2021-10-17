@@ -83,28 +83,28 @@ WSGI_APPLICATION = 'locallibrary.wsgi.application'
 # The following environment variable, called DATABASE_URL, has to be defined
 # at the o.s. level: export DATABASE_URL =
 # 'postgres://alumnodb:alumnodb@localhost:5432/psi'
-db_from_env = dj_database_url.config(
-    default='postgres://alumnodb:alumnodb@localhost:5432/psi',
-    conn_max_age=500)
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-DATABASES['default'].update(db_from_env)
-
-# DATABASES = {}
-# if os.getenv('SQLITE', False):
-#     DATABASES['default'] = {
+# db_from_env = dj_database_url.config(
+#     default='postgres://alumnodb:alumnodb@localhost:5432/psi',
+#     conn_max_age=500)
+# 
+# DATABASES = {
+#     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
-# else:
-#     DATABASES['default'] = dj_database_url.config(
-#         default='postgres://alumnodb:alumnodb@localhost:5432/psi',
-#         conn_max_age=500)
+# }
+# DATABASES['default'].update(db_from_env)
+
+DATABASES = {}
+if os.getenv('SQLITE', False):
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+else:
+    DATABASES['default'] = dj_database_url.config(
+        default='postgres://alumnodb:alumnodb@localhost:5432/psi',
+        conn_max_age=500)
 
 
 # Password validation
