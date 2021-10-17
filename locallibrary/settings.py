@@ -80,6 +80,12 @@ WSGI_APPLICATION = 'locallibrary.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+# The following environment variable, called DATABASE_URL, has to be defined
+# at the o.s. level: export DATABASE_URL =
+# 'postgres://alumnodb:alumnodb@localhost:5432/psi'
+db_from_env = dj_database_url.config(
+    default='postgres://alumnodb:alumnodb@localhost:5432/psi',
+    conn_max_age=500)
 
 DATABASES = {
     'default': {
@@ -87,16 +93,18 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-DATABASES = {}
-if os.getenv('SQLITE', False):
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-else:
-    DATABASES['default'] = dj_database_url.config(
-        default='postgres://alumnodb:alumnodb@localhost:5432/psi',
-        conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+# DATABASES = {}
+# if os.getenv('SQLITE', False):
+#     DATABASES['default'] = {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# else:
+#     DATABASES['default'] = dj_database_url.config(
+#         default='postgres://alumnodb:alumnodb@localhost:5432/psi',
+#         conn_max_age=500)
 
 
 # Password validation
@@ -145,16 +153,6 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-# The following environment variable, called DATABASE_URL, has to be defined
-# at the o.s. level: export DATABASE_URL =
-# 'postgres://alumnodb:alumnodb@localhost:5432/psi'
-db_from_env = dj_database_url.config(
-    default='postgres://alumnodb:alumnodb@localhost:5432/psi',
-    conn_max_age=500)
-
-DATABASES['default'].update(db_from_env)
 
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
